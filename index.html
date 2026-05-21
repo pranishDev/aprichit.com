@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aparichit.com | Garuda Purana Portal</title>
+    <style>
+        /* --- Base & Reset Styles --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', Courier, monospace, sans-serif;
+        }
+
+        body {
+            background-color: #030a0d;
+            color: #c4e5ec;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* --- Enter Screen Overlay --- */
+        #enter-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #02070a;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: opacity 1s ease, visibility 1s ease;
+        }
+
+        .enter-content {
+            text-align: center;
+            letter-spacing: 4px;
+        }
+
+        .enter-content h2 {
+            color: #ff3333;
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
+        }
+
+        .enter-content p {
+            color: #a4dbe6;
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
+        .click-to-enter {
+            color: #6da4b0;
+            font-size: 1rem;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0% { opacity: 0.2; }
+            50% { opacity: 1; }
+            100% { opacity: 0.2; }
+        }
+
+        #enter-screen.fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        /* --- Main Dashboard Container --- */
+        .website-container {
+            position: relative;
+            width: 95vw;
+            max-width: 1200px;
+            height: 85vh;
+            border: 2px solid #1c3d44;
+            background: radial-gradient(circle, #081a21 0%, #02070a 100%);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .main-header {
+            text-align: center;
+            border-bottom: 1px solid #1c3d44;
+            padding-bottom: 15px;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            letter-spacing: 8px;
+            color: #e0f4f7;
+            text-shadow: 0 0 10px rgba(196, 229, 236, 0.6);
+        }
+
+        .content-wrapper {
+            display: flex;
+            flex: 1;
+            margin-top: 30px;
+            gap: 40px;
+        }
+
+        /* Interactive Left Side Panel */
+        .interaction-zone {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .dosh-title {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #a4dbe6;
+            margin-bottom: 20px;
+            letter-spacing: 4px;
+            text-shadow: 0 0 15px rgba(164, 219, 230, 0.5);
+        }
+
+        /* Talk Box Layout */
+        .talk-box {
+            width: 85%;
+            background: rgba(4, 16, 21, 0.85);
+            border: 1px solid #31626e;
+            border-radius: 4px;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.7);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .talk-box-header {
+            background: #0d232a;
+            padding: 8px 15px;
+            border-bottom: 1px solid #234852;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            color: #6da4b0;
+        }
+
+        .window-dots span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #234852;
+            border-radius: 50%;
+            margin-left: 5px;
+        }
+
+        .talk-box-body {
+            padding: 30px;
+            min-height: 200px;
+            font-size: 1.3rem;
+            line-height: 1.6;
+            color: #eef9fb;
+            text-shadow: 0 0 5px rgba(238, 249, 251, 0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Dynamic Input Styles inside Talkbox */
+        .talk-box-input {
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid #31626e;
+            color: #ff5555;
+            font-size: 1.3rem;
+            margin-top: 15px;
+            padding: 5px;
+            width: 100%;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .talk-box-select {
+            background: #0d232a;
+            border: 1px solid #31626e;
+            color: #c4e5ec;
+            font-size: 1.2rem;
+            margin-top: 15px;
+            padding: 10px;
+            width: 100%;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .talk-box-footer {
+            padding: 12px 20px;
+            text-align: right;
+            border-top: 1px dashed #234852;
+        }
+
+        .action-btn {
+            background: transparent;
+            border: 1px solid #4a8694;
+            color: #a4dbe6;
+            padding: 8px 18px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            background: #a4dbe6;
+            color: #030a0d;
+            box-shadow: 0 0 10px rgba(164, 219, 230, 0.5);
+        }
+
+        /* Sidebar Menu Layout */
+        .sidebar-menu {
+            flex: 1;
+            border-left: 1px dashed #1c3d44;
+            padding-left: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .sidebar-menu ul {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            padding: 15px 10px;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            color: #55838e;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-menu li:hover, .sidebar-menu li.active {
+            color: #e0f4f7;
+            border-left: 3px solid #a4dbe6;
+            background: rgba(13, 35, 42, 0.4);
+            padding-left: 15px;
+            text-shadow: 0 0 8px rgba(224, 244, 247, 0.5);
+        }
+
+        .sidebar-menu .icon {
+            margin-right: 10px;
+        }
+
+        /* Verdict styling */
+        .verdict-text {
+            color: #ff3333 !important;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.6) !important;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="enter-screen" onclick="initializeWebsite()">
+        <div class="enter-content">
+            <h2>WARNING</h2>
+            <p>You are entering APARICHIT.COM</p>
+            <span class="click-to-enter">[ CLICK ANYWHERE TO ENTER ]</span>
+        </div>
+    </div>
+
+    <div class="website-container">
+        <header class="main-header">
+            <h1 class="logo">APARICHIT.COM</h1>
+        </header>
+
+        <main class="content-wrapper">
+            <section class="interaction-zone">
+                <div class="dosh-title" id="main-dosh-heading">दोष?</div>
+                <div class="talk-box">
+                    <div class="talk-box-header">
+                        <span id="talkbox-title">TALK BOX</span>
+                        <div class="window-dots"><span></span><span></span><span></span></div>
+                    </div>
+                    <div class="talk-box-body" id="talk-body">
+                        <p id="question-text"></p>
+                        <div id="input-container"></div>
+                    </div>
+                    <div class="talk-box-footer">
+                        <button class="action-btn" id="action-button" onclick="handleNextStep()">Submit →</button>
+                    </div>
+                </div>
+            </section>
+
+            <nav class="sidebar-menu">
+                <ul>
+                    <li id="menu-welcome" class="active"><span class="icon">👁️</span> Welcome</li>
+                    <li id="menu-complaints"><span class="icon">📝</span> Complaints</li>
+                    <li id="menu-punishments"><span class="icon">🔥</span> Punishments</li>
+                </ul>
+            </nav>
+        </main>
+    </div>
+
+    <audio id="bg-track" loop>
+        <source src="aprichit.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // System variables tracking state
+        let currentStage = "select_crime"; 
+        let selectedCategory = "";
+        let questionStep = 0;
+        
+        // Form response collection
+        let answers = {
+            criminalName: "",
+            specificDetail1: "", // Holds plate number OR food type
+            specificDetail2: ""  // Holds location OR shop name
+        };
+
+        const questionTextElement = document.getElementById("question-text");
+        const inputContainer = document.getElementById("input-container");
+        const actionButton = document.getElementById("action-button");
+        const mainDoshHeading = document.getElementById("main-dosh-heading");
+        const talkboxTitle = document.getElementById("talkbox-title");
+        const bgTrack = document.getElementById("bg-track");
+        const enterScreen = document.getElementById("enter-screen");
+
+        // Step-by-step Question Database
+        const crimeFlows = {
+            vehicle: [
+                { text: "अपराधी का नाम क्या है? (What is the culprit's name?)", key: "criminalName", type: "text" },
+                { text: "वाहन का नंबर प्लेट क्या है? (What is the vehicle's license plate number?)", key: "specificDetail1", type: "text" },
+                { text: "दुर्घटना किस स्थान पर हुई? (Where did the accident happen?)", key: "specificDetail2", type: "text" }
+            ],
+            adulteration: [
+                { text: "मिलावट करने वाले दुकानदार/कंपनी का नाम क्या है? (What is the culprit's name?)", key: "criminalName", type: "text" },
+                { text: "किस खाद्य सामग्री में मिलावट की गई है? (What food item was altered? e.g., Milk, Oil)", key: "specificDetail1", type: "text" },
+                { text: "दुकान/कारखाने का पता क्या है? (What is the location/address?)", key: "specificDetail2", type: "text" }
+            ]
+        };
+
+        // Initialize Web audio and launch UI
+        function initializeWebsite() {
+            enterScreen.classList.add("fade-out");
+            bgTrack.play().catch(err => console.log("Audio stream initialization blocked:", err));
+            
+            // Switch sidebar indicator to complaints
+            updateSidebar("menu-complaints");
+            showCategorySelection();
+        }
+
+        // Sidebar highlighter helper
+        function updateSidebar(activeId) {
+            document.querySelectorAll('.sidebar-menu li').forEach(li => li.classList.remove('active'));
+            document.getElementById(activeId).classList.add('active');
+        }
+
+        // Typing Effect Engine
+        function triggerTypewriter(text, callback) {
+            questionTextElement.innerHTML = "";
+            let idx = 0;
+            function type() {
+                if (idx < text.length) {
+                    questionTextElement.innerHTML += text.charAt(idx);
+                    idx++;
+                    setTimeout(type, 40);
+                } else if (callback) {
+                    callback();
+                }
+            }
+            type();
+        }
+
+        // Stage 1: Choose Crime Layout
+        function showCategorySelection() {
+            currentStage = "select_crime";
+            inputContainer.innerHTML = "";
+            actionButton.style.display = "inline-block";
+            actionButton.innerText = "Proceed →";
+
+            triggerTypewriter("कृपया अपराध की श्रेणी चुनें (Please select the crime category):", () => {
+                inputContainer.innerHTML = `
+                    <select id="crime-select" class="talk-box-select">
+                        <option value="vehicle">Hit & Run / वाहन दुर्घटना</option>
+                        <option value="adulteration">Food Adulteration / मिलावटी खाद्य पदार्थ</option>
+                    </select>
+                `;
+            });
+        }
+
+        // Logic Router handling dynamic form states
+        function handleNextStep() {
+            if (currentStage === "select_crime") {
+                const selector = document.getElementById("crime-select");
+                selectedCategory = selector.value;
+                currentStage = "interrogation";
+                questionStep = 0;
+                inputContainer.innerHTML = "";
+                askQuestion();
+            } 
+            else if (currentStage === "interrogation") {
+                const inputField = document.getElementById("current-input");
+                const currentFlow = crimeFlows[selectedCategory];
+                const currentQuestionObj = currentFlow[questionStep];
+
+                if (inputField && inputField.value.trim() === "") {
+                    alert("Aparichit requires an answer to proceed.");
+                    return;
+                }
+
+                // Save captured context parameters
+                answers[currentQuestionObj.key] = inputField.value;
+                inputContainer.innerHTML = "";
+                questionStep++;
+
+                if (questionStep < currentFlow.length) {
+                    askQuestion();
+                } else {
+                    renderGarudaVerdict();
+                }
+            }
+        }
+
+        // Stage 2: Prompt specific question from selected branch
+        function askQuestion() {
+            const currentQuestionObj = crimeFlows[selectedCategory][questionStep];
+            actionButton.innerText = "Next Question →";
+            
+            triggerTypewriter(currentQuestionObj.text, () => {
+                inputContainer.innerHTML = `<input type="text" id="current-input" class="talk-box-input" autofocus autocomplete="off">`;
+                // Pressing Enter triggers submission naturally
+                document.getElementById("current-input").addEventListener("keydown", function(e) {
+                    if (e.key === "Enter") handleNextStep();
+                });
+            });
+        }
+
+        // Stage 3: Generate Dynamic Verdict (In Hindi just like movie styling)
+        function renderGarudaVerdict() {
+            currentStage = "verdict";
+            actionButton.innerText = "File Another Complaint 📝";
+            actionButton.onclick = resetPortal;
+            
+            mainDoshHeading.innerText = "दंड! (PUNISHMENT)";
+            talkboxTitle.innerText = "GARUDA PURANA SENTENCE";
+            updateSidebar("menu-punishments");
+
+            let finalVerdictHindi = "";
+
+            if (selectedCategory === "vehicle") {
+                finalVerdictHindi = `अपराधी ${answers.criminalName.toUpperCase()} ने नंबर प्लेट ${answers.specificDetail1.toUpperCase()} वाले वाहन से ${answers.specificDetail2.toUpperCase()} पर निर्दोष व्यक्ति को कुचलकर भागने का महापाप किया है। गरुड़ पुराण के अनुसार, इस क्रूरता के लिए अपराधी को 'वैतरणी' नदी या खोलते हुए तेल के 'कुम्भीपाकम' (KUMBHIPAKAM) की सजा दी जाएगी!`;
+            } else if (selectedCategory === "adulteration") {
+                finalVerdictHindi = `अपराधी ${answers.criminalName.toUpperCase()} ने अपने स्थान ${answers.specificDetail2.toUpperCase()} पर चंद पैसों के लालच में ${answers.specificDetail1.toUpperCase()} में मिलावट करके मासूमों के स्वास्थ्य के साथ खिलवाड़ किया है। गरुड़ पुराण के अनुसार, इस मिलावटखोर को जहरीले कीड़ों से भरे 'कृमिभोजनम' (KRIMIBHOJANAM) के नर्क की भयानक सजा भुगतनी होगी!`;
+            }
+
+            questionTextElement.classList.add("verdict-text");
+            triggerTypewriter(finalVerdictHindi);
+        }
+
+        // Reset system pipeline for fresh queries
+        function resetPortal() {
+            questionTextElement.classList.remove("verdict-text");
+            mainDoshHeading.innerText = "दोष?";
+            talkboxTitle.innerText = "TALK BOX";
+            actionButton.onclick = handleNextStep;
+            answers = { criminalName: "", specificDetail1: "", specificDetail2: "" };
+            initializeWebsite();
+        }
+    </script>
+</body>
+</html>
